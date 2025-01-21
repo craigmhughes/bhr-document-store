@@ -45,7 +45,7 @@ function App() {
                 </button>
             )}
             <header className="font-bold my-4">
-                <h1 className="text-2xl">
+                <h1 className="text-2xl" data-testid="active-folder-name">
                     Files {filePathText}
                 </h1>
             </header>
