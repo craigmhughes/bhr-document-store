@@ -34,7 +34,7 @@ afterEach(() => {
 })
 
 test('renders FileEntry with test File', async () => {
-    lastMount = render(<FileEntry entry={testFile} />);
+    lastMount = render(<FileEntry entry={testFile} setSelectedFolder={() => {}} />);
 
     expect(screen.getByText(testFile.name)).toBeTruthy();
     expect(screen.getByText(`.${testFile.type}`)).toBeTruthy();
@@ -44,7 +44,7 @@ test('renders FileEntry with test File', async () => {
 })
 
 test('renders FileEntry with test Folder', async () => {
-    lastMount = render(<FileEntry entry={testFolder} />);
+    lastMount = render(<FileEntry entry={testFolder} setSelectedFolder={() => {}} />);
 
     expect(screen.getByText(testFolder.name)).toBeTruthy();
     expect(screen.getByTestId("file-entry").getAttribute("disabled")).toBeNull();

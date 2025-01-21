@@ -1,11 +1,13 @@
+import { Dispatch, SetStateAction } from "react"
 import { FileEntry as FileEntryType, Folder } from "../../mocks/filedata/filedata"
 import { FolderIcon } from "../Icons"
 
 interface FileEntryInterface {
     entry: FileEntryType | Folder
+    setSelectedFolder: Dispatch<SetStateAction<string>>
 }
 
-export const FileEntry = ({entry} : FileEntryInterface) => {
+export const FileEntry = ({entry, setSelectedFolder} : FileEntryInterface) => {
     const isFolder = entry.type.toLowerCase() === "folder"
 
     const fileType = isFolder ? (
@@ -27,7 +29,8 @@ export const FileEntry = ({entry} : FileEntryInterface) => {
     return (
         <button 
             data-testid="file-entry"
-            className="text-left min-h-12 flex justify-center flex-col disabled:bg-transparent disabled:border-0" 
+            className="text-left min-h-12 flex justify-center flex-col disabled:bg-transparent disabled:border-0"
+            onClick={() => setSelectedFolder(entry.name)}
             disabled={!isFolder}
         >
             <p className="mb-1 flex">
