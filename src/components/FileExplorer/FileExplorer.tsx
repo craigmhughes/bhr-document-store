@@ -1,5 +1,5 @@
 import { FileData } from "../../mocks/filedata/filedata"
-import { LoadingSpinner } from "../LoadingSpinner"
+import { LoadingSpinner } from "../Icons"
 import { FileEntry } from "./FileEntry"
 
 interface FileExplorerInterface {
