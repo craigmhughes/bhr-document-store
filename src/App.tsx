@@ -1,35 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useMemo, useState } from 'react'
 import './App.css'
+import { FileData } from './mocks/filedata/filedata';
+import { GetData } from './mocks/filedata';
+import FileExplorer from './components/FileExplorer/FileExplorer';
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [data, setData] = useState<FileData>();
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [hasError, setHasError] = useState<boolean>(false);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    const [selectedFolder, setSelectedFolder] = useState<string>();
+
+    const filePathText = useMemo<string>(() => {
+        return selectedFolder ? `/ ${selectedFolder}` : ''
+    }, [selectedFolder])
+
+    useEffect(() => {   
+        GetData.then((response) => {
+            setData(response);
+            setIsLoading(false);
+        }).catch(() => {
+            setIsLoading(false);
+            setHasError(true);
+        })
+    }, [])
+
+    return (
+        <div className="text-left">
+            <header className="font-bold my-4">
+                <h1 className="text-2xl">
+                    Files {filePathText}
+                </h1>
+            </header>
+            <FileExplorer 
+                data={data} 
+                isLoading={isLoading} 
+                hasError={hasError} 
+            />  
+        </div>
+    )
 }
 
 export default App
