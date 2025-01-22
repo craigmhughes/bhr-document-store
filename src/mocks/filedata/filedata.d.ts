@@ -11,4 +11,6 @@ export type Folder = Entry & {
     files: FileEntry[],
 }
 
-export type FileData = (FileEntry | Folder)[];
+export type FileDataEntry = FileEntry | Folder 
+
+export type FileData = FileDataEntry[];

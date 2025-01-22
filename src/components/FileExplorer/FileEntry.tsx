@@ -34,7 +34,7 @@ export const FileEntry = ({entry, setSelectedFolder} : FileEntryInterface) => {
             disabled={!isFolder}
         >
             <p className="mb-1 flex">
-                {entry.name}
+                <span data-testid="entry-name">{entry.name}</span>
                 {fileType}
             </p>
             {addedDate}
