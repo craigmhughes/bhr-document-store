@@ -1,5 +1,5 @@
 import { test, expect, vi, afterEach, beforeEach } from "vitest";
-import { render, RenderResult, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, RenderResult, screen, waitFor } from '@testing-library/react'
 import App from "./App";
 import filedata from './mocks/filedata/filedata.json'
 
@@ -53,5 +53,17 @@ test('applies sort by filters', async () => {
     
     expect(itemsBetweenNodes).toEqual(Node.DOCUMENT_POSITION_FOLLOWING);
 
+    
+})
+
+test('apply search term', async () => {
+    const search = screen.getByTestId("search-bar");
+
+    fireEvent.change(search, {target: {value: 'employee' }})
+
+    let fileNames = await vi.waitFor(async () => await screen.getAllByTestId("entry-name"));
+
+    expect(fileNames.length).toEqual(1);
+    expect(fileNames[0].textContent).toEqual("Employee Handbook");
     
 })

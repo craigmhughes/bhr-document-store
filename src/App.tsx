@@ -14,6 +14,7 @@ function App() {
     const availableFilters = [undefined, "name"];
 
     const [activeFilter, setActiveFilter] = useState<string>();
+    const [searchTerm, setSearchTerm] = useState<string>();
 
     const filePathText = useMemo<string>(() => {
         return selectedFolder ? `/ ${selectedFolder}` : ''
@@ -26,13 +27,17 @@ function App() {
         if (selectedFolderData) {
             dataToFilter = selectedFolderData.files
         }
+
+        if (searchTerm) {
+            dataToFilter = dataToFilter?.filter((entry) => entry.name.toLowerCase().includes(searchTerm.toLowerCase()))
+        }
         
         return !activeFilter ? dataToFilter : dataToFilter?.sort((a: FileDataEntry, b: FileDataEntry) => {
             const castFilter = activeFilter as keyof typeof a;
 
             return  a[castFilter] > b[castFilter] ? 1 : -1
         })
-    }, [data, selectedFolder, activeFilter])
+    }, [data, selectedFolder, activeFilter, searchTerm])
 
     useEffect(() => {   
         GetData.then((response) => {
@@ -58,6 +63,16 @@ function App() {
                 <h1 className="text-2xl py-4 border-b border-gray-100" data-testid="active-folder-name">
                     Files {filePathText}
                 </h1>
+
+                <input 
+                    data-testid="search-bar"
+                    className="px-4 py-2 mt-6 rounded"
+                    placeholder="Search..." 
+                    type="text" 
+                    onChange={(e) => {
+                        setSearchTerm(e.target.value)
+                    }} 
+                />
 
                 <div className="border-b border-gray-700 py-4 my-4 flex flex-col gap-2">
                     <p>Sort by:</p>
