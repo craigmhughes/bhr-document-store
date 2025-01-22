@@ -1,50 +1,35 @@
-# React + TypeScript + Vite
+# Document Explorer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a single page application where a user can view documents/folders; which includes data such as:
+- File type
+- Name
+- Date added
 
-Currently, two official plugins are available:
+The following features have been implemented:
+- Allow a user to open a folder to see it’s contents
+- Sort by name
+- Filter by filename
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Setup
 
-## Expanding the ESLint configuration
+- If you use `nvm` you can run `nvm use` or ensure you are using node version `v18.20.4`.
+- Run `yarn`
+- To run tests `yarn run test`
+- To run the app `yarn run dev`
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Features incomplete
+While aiming to stick to a time limit, the sort by feature has been left without the following filters:
+- Date
+- Size
 
-- Configure the top-level `parserOptions` property like this:
+Both filters would use the same `filteredData` object callback to apply the sorting to the data. However, the definition of what constitutes "size" should be worked out beforehand.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+We can assume that "size" would refer to:
+- A new value assigned in the test data object (eg. "200KB")
+- The number of files in a folder which would order all folders to the top of the list leaving files at the bottom.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Once a defintion has been chosen, either would be suitable to be checked within the `filteredData` callback.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Tests for these changes to the callback may include separate objects with the same format as the data object:
+- Date should use the "added" value cast to a Date object for sorting
+- Size should either extract the number of the file size or order by length of each folder.
